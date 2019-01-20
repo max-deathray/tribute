@@ -31,7 +31,12 @@ type HeartConnection {
 
 input HeartCreateInput {
   vibe: VibeCreateOneWithoutHeartsInput!
-  user: UserCreateOneInput!
+  user: UserCreateOneWithoutHeartsInput!
+}
+
+input HeartCreateManyWithoutUserInput {
+  create: [HeartCreateWithoutUserInput!]
+  connect: [HeartWhereUniqueInput!]
 }
 
 input HeartCreateManyWithoutVibeInput {
@@ -39,8 +44,12 @@ input HeartCreateManyWithoutVibeInput {
   connect: [HeartWhereUniqueInput!]
 }
 
+input HeartCreateWithoutUserInput {
+  vibe: VibeCreateOneWithoutHeartsInput!
+}
+
 input HeartCreateWithoutVibeInput {
-  user: UserCreateOneInput!
+  user: UserCreateOneWithoutHeartsInput!
 }
 
 type HeartEdge {
@@ -101,7 +110,17 @@ input HeartSubscriptionWhereInput {
 
 input HeartUpdateInput {
   vibe: VibeUpdateOneRequiredWithoutHeartsInput
-  user: UserUpdateOneRequiredInput
+  user: UserUpdateOneRequiredWithoutHeartsInput
+}
+
+input HeartUpdateManyWithoutUserInput {
+  create: [HeartCreateWithoutUserInput!]
+  delete: [HeartWhereUniqueInput!]
+  connect: [HeartWhereUniqueInput!]
+  disconnect: [HeartWhereUniqueInput!]
+  update: [HeartUpdateWithWhereUniqueWithoutUserInput!]
+  upsert: [HeartUpsertWithWhereUniqueWithoutUserInput!]
+  deleteMany: [HeartScalarWhereInput!]
 }
 
 input HeartUpdateManyWithoutVibeInput {
@@ -114,13 +133,28 @@ input HeartUpdateManyWithoutVibeInput {
   deleteMany: [HeartScalarWhereInput!]
 }
 
+input HeartUpdateWithoutUserDataInput {
+  vibe: VibeUpdateOneRequiredWithoutHeartsInput
+}
+
 input HeartUpdateWithoutVibeDataInput {
-  user: UserUpdateOneRequiredInput
+  user: UserUpdateOneRequiredWithoutHeartsInput
+}
+
+input HeartUpdateWithWhereUniqueWithoutUserInput {
+  where: HeartWhereUniqueInput!
+  data: HeartUpdateWithoutUserDataInput!
 }
 
 input HeartUpdateWithWhereUniqueWithoutVibeInput {
   where: HeartWhereUniqueInput!
   data: HeartUpdateWithoutVibeDataInput!
+}
+
+input HeartUpsertWithWhereUniqueWithoutUserInput {
+  where: HeartWhereUniqueInput!
+  update: HeartUpdateWithoutUserDataInput!
+  create: HeartCreateWithoutUserInput!
 }
 
 input HeartUpsertWithWhereUniqueWithoutVibeInput {
@@ -219,6 +253,7 @@ type User {
   email: String!
   password: String!
   vibes(where: VibeWhereInput, orderBy: VibeOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Vibe!]
+  hearts(where: HeartWhereInput, orderBy: HeartOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Heart!]
 }
 
 type UserConnection {
@@ -232,10 +267,11 @@ input UserCreateInput {
   email: String!
   password: String!
   vibes: VibeCreateManyWithoutPostedByInput
+  hearts: HeartCreateManyWithoutUserInput
 }
 
-input UserCreateOneInput {
-  create: UserCreateInput
+input UserCreateOneWithoutHeartsInput {
+  create: UserCreateWithoutHeartsInput
   connect: UserWhereUniqueInput
 }
 
@@ -244,10 +280,18 @@ input UserCreateOneWithoutVibesInput {
   connect: UserWhereUniqueInput
 }
 
+input UserCreateWithoutHeartsInput {
+  name: String!
+  email: String!
+  password: String!
+  vibes: VibeCreateManyWithoutPostedByInput
+}
+
 input UserCreateWithoutVibesInput {
   name: String!
   email: String!
   password: String!
+  hearts: HeartCreateManyWithoutUserInput
 }
 
 type UserEdge {
@@ -295,18 +339,12 @@ input UserSubscriptionWhereInput {
   NOT: [UserSubscriptionWhereInput!]
 }
 
-input UserUpdateDataInput {
-  name: String
-  email: String
-  password: String
-  vibes: VibeUpdateManyWithoutPostedByInput
-}
-
 input UserUpdateInput {
   name: String
   email: String
   password: String
   vibes: VibeUpdateManyWithoutPostedByInput
+  hearts: HeartUpdateManyWithoutUserInput
 }
 
 input UserUpdateManyMutationInput {
@@ -315,10 +353,10 @@ input UserUpdateManyMutationInput {
   password: String
 }
 
-input UserUpdateOneRequiredInput {
-  create: UserCreateInput
-  update: UserUpdateDataInput
-  upsert: UserUpsertNestedInput
+input UserUpdateOneRequiredWithoutHeartsInput {
+  create: UserCreateWithoutHeartsInput
+  update: UserUpdateWithoutHeartsDataInput
+  upsert: UserUpsertWithoutHeartsInput
   connect: UserWhereUniqueInput
 }
 
@@ -331,15 +369,23 @@ input UserUpdateOneWithoutVibesInput {
   connect: UserWhereUniqueInput
 }
 
+input UserUpdateWithoutHeartsDataInput {
+  name: String
+  email: String
+  password: String
+  vibes: VibeUpdateManyWithoutPostedByInput
+}
+
 input UserUpdateWithoutVibesDataInput {
   name: String
   email: String
   password: String
+  hearts: HeartUpdateManyWithoutUserInput
 }
 
-input UserUpsertNestedInput {
-  update: UserUpdateDataInput!
-  create: UserCreateInput!
+input UserUpsertWithoutHeartsInput {
+  update: UserUpdateWithoutHeartsDataInput!
+  create: UserCreateWithoutHeartsInput!
 }
 
 input UserUpsertWithoutVibesInput {
@@ -407,6 +453,9 @@ input UserWhereInput {
   vibes_every: VibeWhereInput
   vibes_some: VibeWhereInput
   vibes_none: VibeWhereInput
+  hearts_every: HeartWhereInput
+  hearts_some: HeartWhereInput
+  hearts_none: HeartWhereInput
   AND: [UserWhereInput!]
   OR: [UserWhereInput!]
   NOT: [UserWhereInput!]

@@ -209,19 +209,20 @@ export type UserOrderByInput =
 
 export type MutationType = "CREATED" | "UPDATED" | "DELETED";
 
-export interface HeartUpdateInput {
-  vibe?: VibeUpdateOneRequiredWithoutHeartsInput;
-  user?: UserUpdateOneRequiredInput;
+export interface VibeUpdateOneRequiredWithoutHeartsInput {
+  create?: VibeCreateWithoutHeartsInput;
+  update?: VibeUpdateWithoutHeartsDataInput;
+  upsert?: VibeUpsertWithoutHeartsInput;
+  connect?: VibeWhereUniqueInput;
 }
 
 export type HeartWhereUniqueInput = AtLeastOne<{
   id: ID_Input;
 }>;
 
-export interface VibeCreateWithoutHeartsInput {
-  description: String;
-  img: String;
-  postedBy?: UserCreateOneWithoutVibesInput;
+export interface HeartCreateManyWithoutUserInput {
+  create?: HeartCreateWithoutUserInput[] | HeartCreateWithoutUserInput;
+  connect?: HeartWhereUniqueInput[] | HeartWhereUniqueInput;
 }
 
 export interface HeartUpdateWithWhereUniqueWithoutVibeInput {
@@ -229,24 +230,20 @@ export interface HeartUpdateWithWhereUniqueWithoutVibeInput {
   data: HeartUpdateWithoutVibeDataInput;
 }
 
-export interface UserCreateOneWithoutVibesInput {
-  create?: UserCreateWithoutVibesInput;
-  connect?: UserWhereUniqueInput;
+export interface HeartCreateWithoutUserInput {
+  vibe: VibeCreateOneWithoutHeartsInput;
 }
 
-export interface UserUpdateOneWithoutVibesInput {
-  create?: UserCreateWithoutVibesInput;
-  update?: UserUpdateWithoutVibesDataInput;
-  upsert?: UserUpsertWithoutVibesInput;
-  delete?: Boolean;
-  disconnect?: Boolean;
-  connect?: UserWhereUniqueInput;
+export interface UserUpdateWithoutVibesDataInput {
+  name?: String;
+  email?: String;
+  password?: String;
+  hearts?: HeartUpdateManyWithoutUserInput;
 }
 
-export interface UserCreateWithoutVibesInput {
-  name: String;
-  email: String;
-  password: String;
+export interface UserCreateOneWithoutHeartsInput {
+  create?: UserCreateWithoutHeartsInput;
+  connect?: UserWhereUniqueInput;
 }
 
 export interface HeartWhereInput {
@@ -271,9 +268,11 @@ export interface HeartWhereInput {
   NOT?: HeartWhereInput[] | HeartWhereInput;
 }
 
-export interface UserCreateOneInput {
-  create?: UserCreateInput;
-  connect?: UserWhereUniqueInput;
+export interface UserCreateWithoutHeartsInput {
+  name: String;
+  email: String;
+  password: String;
+  vibes?: VibeCreateManyWithoutPostedByInput;
 }
 
 export interface UserSubscriptionWhereInput {
@@ -287,11 +286,9 @@ export interface UserSubscriptionWhereInput {
   NOT?: UserSubscriptionWhereInput[] | UserSubscriptionWhereInput;
 }
 
-export interface UserCreateInput {
-  name: String;
-  email: String;
-  password: String;
-  vibes?: VibeCreateManyWithoutPostedByInput;
+export interface VibeCreateManyWithoutPostedByInput {
+  create?: VibeCreateWithoutPostedByInput[] | VibeCreateWithoutPostedByInput;
+  connect?: VibeWhereUniqueInput[] | VibeWhereUniqueInput;
 }
 
 export interface VibeUpdateManyMutationInput {
@@ -299,9 +296,10 @@ export interface VibeUpdateManyMutationInput {
   img?: String;
 }
 
-export interface VibeCreateManyWithoutPostedByInput {
-  create?: VibeCreateWithoutPostedByInput[] | VibeCreateWithoutPostedByInput;
-  connect?: VibeWhereUniqueInput[] | VibeWhereUniqueInput;
+export interface VibeCreateWithoutPostedByInput {
+  description: String;
+  img: String;
+  hearts?: HeartCreateManyWithoutVibeInput;
 }
 
 export interface VibeCreateInput {
@@ -311,10 +309,9 @@ export interface VibeCreateInput {
   hearts?: HeartCreateManyWithoutVibeInput;
 }
 
-export interface VibeCreateWithoutPostedByInput {
-  description: String;
-  img: String;
-  hearts?: HeartCreateManyWithoutVibeInput;
+export interface HeartCreateManyWithoutVibeInput {
+  create?: HeartCreateWithoutVibeInput[] | HeartCreateWithoutVibeInput;
+  connect?: HeartWhereUniqueInput[] | HeartWhereUniqueInput;
 }
 
 export interface UserUpdateInput {
@@ -322,66 +319,58 @@ export interface UserUpdateInput {
   email?: String;
   password?: String;
   vibes?: VibeUpdateManyWithoutPostedByInput;
-}
-
-export interface HeartCreateManyWithoutVibeInput {
-  create?: HeartCreateWithoutVibeInput[] | HeartCreateWithoutVibeInput;
-  connect?: HeartWhereUniqueInput[] | HeartWhereUniqueInput;
-}
-
-export interface UserUpsertNestedInput {
-  update: UserUpdateDataInput;
-  create: UserCreateInput;
+  hearts?: HeartUpdateManyWithoutUserInput;
 }
 
 export interface HeartCreateWithoutVibeInput {
-  user: UserCreateOneInput;
+  user: UserCreateOneWithoutHeartsInput;
 }
 
-export interface VibeUpdateManyWithWhereNestedInput {
-  where: VibeScalarWhereInput;
-  data: VibeUpdateManyDataInput;
+export interface UserCreateInput {
+  name: String;
+  email: String;
+  password: String;
+  vibes?: VibeCreateManyWithoutPostedByInput;
+  hearts?: HeartCreateManyWithoutUserInput;
+}
+
+export interface HeartUpdateInput {
+  vibe?: VibeUpdateOneRequiredWithoutHeartsInput;
+  user?: UserUpdateOneRequiredWithoutHeartsInput;
+}
+
+export interface VibeUpdateManyDataInput {
+  description?: String;
+  img?: String;
 }
 
 export interface HeartUpdateWithoutVibeDataInput {
-  user?: UserUpdateOneRequiredInput;
+  user?: UserUpdateOneRequiredWithoutHeartsInput;
 }
 
 export type VibeWhereUniqueInput = AtLeastOne<{
   id: ID_Input;
 }>;
 
-export interface VibeUpdateOneRequiredWithoutHeartsInput {
-  create?: VibeCreateWithoutHeartsInput;
-  update?: VibeUpdateWithoutHeartsDataInput;
-  upsert?: VibeUpsertWithoutHeartsInput;
-  connect?: VibeWhereUniqueInput;
-}
-
-export interface HeartScalarWhereInput {
-  id?: ID_Input;
-  id_not?: ID_Input;
-  id_in?: ID_Input[] | ID_Input;
-  id_not_in?: ID_Input[] | ID_Input;
-  id_lt?: ID_Input;
-  id_lte?: ID_Input;
-  id_gt?: ID_Input;
-  id_gte?: ID_Input;
-  id_contains?: ID_Input;
-  id_not_contains?: ID_Input;
-  id_starts_with?: ID_Input;
-  id_not_starts_with?: ID_Input;
-  id_ends_with?: ID_Input;
-  id_not_ends_with?: ID_Input;
-  AND?: HeartScalarWhereInput[] | HeartScalarWhereInput;
-  OR?: HeartScalarWhereInput[] | HeartScalarWhereInput;
-  NOT?: HeartScalarWhereInput[] | HeartScalarWhereInput;
-}
-
 export interface VibeUpdateWithoutHeartsDataInput {
   description?: String;
   img?: String;
   postedBy?: UserUpdateOneWithoutVibesInput;
+}
+
+export interface VibeUpsertWithWhereUniqueWithoutPostedByInput {
+  where: VibeWhereUniqueInput;
+  update: VibeUpdateWithoutPostedByDataInput;
+  create: VibeCreateWithoutPostedByInput;
+}
+
+export interface UserUpdateOneWithoutVibesInput {
+  create?: UserCreateWithoutVibesInput;
+  update?: UserUpdateWithoutVibesDataInput;
+  upsert?: UserUpsertWithoutVibesInput;
+  delete?: Boolean;
+  disconnect?: Boolean;
+  connect?: UserWhereUniqueInput;
 }
 
 export interface VibeCreateOneWithoutHeartsInput {
@@ -449,119 +438,23 @@ export interface VibeWhereInput {
   NOT?: VibeWhereInput[] | VibeWhereInput;
 }
 
-export interface VibeSubscriptionWhereInput {
-  mutation_in?: MutationType[] | MutationType;
-  updatedFields_contains?: String;
-  updatedFields_contains_every?: String[] | String;
-  updatedFields_contains_some?: String[] | String;
-  node?: VibeWhereInput;
-  AND?: VibeSubscriptionWhereInput[] | VibeSubscriptionWhereInput;
-  OR?: VibeSubscriptionWhereInput[] | VibeSubscriptionWhereInput;
-  NOT?: VibeSubscriptionWhereInput[] | VibeSubscriptionWhereInput;
-}
-
-export interface UserUpdateWithoutVibesDataInput {
-  name?: String;
-  email?: String;
-  password?: String;
-}
-
-export interface VibeUpdateInput {
-  description?: String;
-  img?: String;
-  postedBy?: UserUpdateOneWithoutVibesInput;
-  hearts?: HeartUpdateManyWithoutVibeInput;
-}
-
-export interface UserUpsertWithoutVibesInput {
-  update: UserUpdateWithoutVibesDataInput;
-  create: UserCreateWithoutVibesInput;
-}
-
-export type UserWhereUniqueInput = AtLeastOne<{
-  id: ID_Input;
-  email?: String;
-}>;
-
-export interface VibeUpsertWithoutHeartsInput {
-  update: VibeUpdateWithoutHeartsDataInput;
-  create: VibeCreateWithoutHeartsInput;
-}
-
-export interface VibeScalarWhereInput {
-  id?: ID_Input;
-  id_not?: ID_Input;
-  id_in?: ID_Input[] | ID_Input;
-  id_not_in?: ID_Input[] | ID_Input;
-  id_lt?: ID_Input;
-  id_lte?: ID_Input;
-  id_gt?: ID_Input;
-  id_gte?: ID_Input;
-  id_contains?: ID_Input;
-  id_not_contains?: ID_Input;
-  id_starts_with?: ID_Input;
-  id_not_starts_with?: ID_Input;
-  id_ends_with?: ID_Input;
-  id_not_ends_with?: ID_Input;
-  createdAt?: DateTimeInput;
-  createdAt_not?: DateTimeInput;
-  createdAt_in?: DateTimeInput[] | DateTimeInput;
-  createdAt_not_in?: DateTimeInput[] | DateTimeInput;
-  createdAt_lt?: DateTimeInput;
-  createdAt_lte?: DateTimeInput;
-  createdAt_gt?: DateTimeInput;
-  createdAt_gte?: DateTimeInput;
-  description?: String;
-  description_not?: String;
-  description_in?: String[] | String;
-  description_not_in?: String[] | String;
-  description_lt?: String;
-  description_lte?: String;
-  description_gt?: String;
-  description_gte?: String;
-  description_contains?: String;
-  description_not_contains?: String;
-  description_starts_with?: String;
-  description_not_starts_with?: String;
-  description_ends_with?: String;
-  description_not_ends_with?: String;
-  img?: String;
-  img_not?: String;
-  img_in?: String[] | String;
-  img_not_in?: String[] | String;
-  img_lt?: String;
-  img_lte?: String;
-  img_gt?: String;
-  img_gte?: String;
-  img_contains?: String;
-  img_not_contains?: String;
-  img_starts_with?: String;
-  img_not_starts_with?: String;
-  img_ends_with?: String;
-  img_not_ends_with?: String;
-  AND?: VibeScalarWhereInput[] | VibeScalarWhereInput;
-  OR?: VibeScalarWhereInput[] | VibeScalarWhereInput;
-  NOT?: VibeScalarWhereInput[] | VibeScalarWhereInput;
-}
-
-export interface UserUpdateOneRequiredInput {
-  create?: UserCreateInput;
-  update?: UserUpdateDataInput;
-  upsert?: UserUpsertNestedInput;
+export interface UserCreateOneWithoutVibesInput {
+  create?: UserCreateWithoutVibesInput;
   connect?: UserWhereUniqueInput;
 }
 
-export interface HeartUpsertWithWhereUniqueWithoutVibeInput {
-  where: HeartWhereUniqueInput;
-  update: HeartUpdateWithoutVibeDataInput;
-  create: HeartCreateWithoutVibeInput;
-}
-
-export interface UserUpdateDataInput {
-  name?: String;
-  email?: String;
-  password?: String;
-  vibes?: VibeUpdateManyWithoutPostedByInput;
+export interface HeartUpdateManyWithoutUserInput {
+  create?: HeartCreateWithoutUserInput[] | HeartCreateWithoutUserInput;
+  delete?: HeartWhereUniqueInput[] | HeartWhereUniqueInput;
+  connect?: HeartWhereUniqueInput[] | HeartWhereUniqueInput;
+  disconnect?: HeartWhereUniqueInput[] | HeartWhereUniqueInput;
+  update?:
+    | HeartUpdateWithWhereUniqueWithoutUserInput[]
+    | HeartUpdateWithWhereUniqueWithoutUserInput;
+  upsert?:
+    | HeartUpsertWithWhereUniqueWithoutUserInput[]
+    | HeartUpsertWithWhereUniqueWithoutUserInput;
+  deleteMany?: HeartScalarWhereInput[] | HeartScalarWhereInput;
 }
 
 export interface UserWhereInput {
@@ -624,9 +517,173 @@ export interface UserWhereInput {
   vibes_every?: VibeWhereInput;
   vibes_some?: VibeWhereInput;
   vibes_none?: VibeWhereInput;
+  hearts_every?: HeartWhereInput;
+  hearts_some?: HeartWhereInput;
+  hearts_none?: HeartWhereInput;
   AND?: UserWhereInput[] | UserWhereInput;
   OR?: UserWhereInput[] | UserWhereInput;
   NOT?: UserWhereInput[] | UserWhereInput;
+}
+
+export interface HeartUpdateWithWhereUniqueWithoutUserInput {
+  where: HeartWhereUniqueInput;
+  data: HeartUpdateWithoutUserDataInput;
+}
+
+export interface HeartSubscriptionWhereInput {
+  mutation_in?: MutationType[] | MutationType;
+  updatedFields_contains?: String;
+  updatedFields_contains_every?: String[] | String;
+  updatedFields_contains_some?: String[] | String;
+  node?: HeartWhereInput;
+  AND?: HeartSubscriptionWhereInput[] | HeartSubscriptionWhereInput;
+  OR?: HeartSubscriptionWhereInput[] | HeartSubscriptionWhereInput;
+  NOT?: HeartSubscriptionWhereInput[] | HeartSubscriptionWhereInput;
+}
+
+export interface HeartUpdateWithoutUserDataInput {
+  vibe?: VibeUpdateOneRequiredWithoutHeartsInput;
+}
+
+export interface UserUpdateManyMutationInput {
+  name?: String;
+  email?: String;
+  password?: String;
+}
+
+export interface HeartUpsertWithWhereUniqueWithoutUserInput {
+  where: HeartWhereUniqueInput;
+  update: HeartUpdateWithoutUserDataInput;
+  create: HeartCreateWithoutUserInput;
+}
+
+export interface UserUpsertWithoutHeartsInput {
+  update: UserUpdateWithoutHeartsDataInput;
+  create: UserCreateWithoutHeartsInput;
+}
+
+export interface HeartScalarWhereInput {
+  id?: ID_Input;
+  id_not?: ID_Input;
+  id_in?: ID_Input[] | ID_Input;
+  id_not_in?: ID_Input[] | ID_Input;
+  id_lt?: ID_Input;
+  id_lte?: ID_Input;
+  id_gt?: ID_Input;
+  id_gte?: ID_Input;
+  id_contains?: ID_Input;
+  id_not_contains?: ID_Input;
+  id_starts_with?: ID_Input;
+  id_not_starts_with?: ID_Input;
+  id_ends_with?: ID_Input;
+  id_not_ends_with?: ID_Input;
+  AND?: HeartScalarWhereInput[] | HeartScalarWhereInput;
+  OR?: HeartScalarWhereInput[] | HeartScalarWhereInput;
+  NOT?: HeartScalarWhereInput[] | HeartScalarWhereInput;
+}
+
+export interface VibeScalarWhereInput {
+  id?: ID_Input;
+  id_not?: ID_Input;
+  id_in?: ID_Input[] | ID_Input;
+  id_not_in?: ID_Input[] | ID_Input;
+  id_lt?: ID_Input;
+  id_lte?: ID_Input;
+  id_gt?: ID_Input;
+  id_gte?: ID_Input;
+  id_contains?: ID_Input;
+  id_not_contains?: ID_Input;
+  id_starts_with?: ID_Input;
+  id_not_starts_with?: ID_Input;
+  id_ends_with?: ID_Input;
+  id_not_ends_with?: ID_Input;
+  createdAt?: DateTimeInput;
+  createdAt_not?: DateTimeInput;
+  createdAt_in?: DateTimeInput[] | DateTimeInput;
+  createdAt_not_in?: DateTimeInput[] | DateTimeInput;
+  createdAt_lt?: DateTimeInput;
+  createdAt_lte?: DateTimeInput;
+  createdAt_gt?: DateTimeInput;
+  createdAt_gte?: DateTimeInput;
+  description?: String;
+  description_not?: String;
+  description_in?: String[] | String;
+  description_not_in?: String[] | String;
+  description_lt?: String;
+  description_lte?: String;
+  description_gt?: String;
+  description_gte?: String;
+  description_contains?: String;
+  description_not_contains?: String;
+  description_starts_with?: String;
+  description_not_starts_with?: String;
+  description_ends_with?: String;
+  description_not_ends_with?: String;
+  img?: String;
+  img_not?: String;
+  img_in?: String[] | String;
+  img_not_in?: String[] | String;
+  img_lt?: String;
+  img_lte?: String;
+  img_gt?: String;
+  img_gte?: String;
+  img_contains?: String;
+  img_not_contains?: String;
+  img_starts_with?: String;
+  img_not_starts_with?: String;
+  img_ends_with?: String;
+  img_not_ends_with?: String;
+  AND?: VibeScalarWhereInput[] | VibeScalarWhereInput;
+  OR?: VibeScalarWhereInput[] | VibeScalarWhereInput;
+  NOT?: VibeScalarWhereInput[] | VibeScalarWhereInput;
+}
+
+export interface UserUpsertWithoutVibesInput {
+  update: UserUpdateWithoutVibesDataInput;
+  create: UserCreateWithoutVibesInput;
+}
+
+export interface HeartCreateInput {
+  vibe: VibeCreateOneWithoutHeartsInput;
+  user: UserCreateOneWithoutHeartsInput;
+}
+
+export interface VibeUpsertWithoutHeartsInput {
+  update: VibeUpdateWithoutHeartsDataInput;
+  create: VibeCreateWithoutHeartsInput;
+}
+
+export interface UserCreateWithoutVibesInput {
+  name: String;
+  email: String;
+  password: String;
+  hearts?: HeartCreateManyWithoutUserInput;
+}
+
+export interface UserUpdateOneRequiredWithoutHeartsInput {
+  create?: UserCreateWithoutHeartsInput;
+  update?: UserUpdateWithoutHeartsDataInput;
+  upsert?: UserUpsertWithoutHeartsInput;
+  connect?: UserWhereUniqueInput;
+}
+
+export interface VibeUpdateInput {
+  description?: String;
+  img?: String;
+  postedBy?: UserUpdateOneWithoutVibesInput;
+  hearts?: HeartUpdateManyWithoutVibeInput;
+}
+
+export interface UserUpdateWithoutHeartsDataInput {
+  name?: String;
+  email?: String;
+  password?: String;
+  vibes?: VibeUpdateManyWithoutPostedByInput;
+}
+
+export interface VibeUpdateManyWithWhereNestedInput {
+  where: VibeScalarWhereInput;
+  data: VibeUpdateManyDataInput;
 }
 
 export interface HeartUpdateManyWithoutVibeInput {
@@ -671,37 +728,32 @@ export interface VibeUpdateManyWithoutPostedByInput {
     | VibeUpdateManyWithWhereNestedInput;
 }
 
-export interface HeartSubscriptionWhereInput {
+export interface HeartUpsertWithWhereUniqueWithoutVibeInput {
+  where: HeartWhereUniqueInput;
+  update: HeartUpdateWithoutVibeDataInput;
+  create: HeartCreateWithoutVibeInput;
+}
+
+export type UserWhereUniqueInput = AtLeastOne<{
+  id: ID_Input;
+  email?: String;
+}>;
+
+export interface VibeSubscriptionWhereInput {
   mutation_in?: MutationType[] | MutationType;
   updatedFields_contains?: String;
   updatedFields_contains_every?: String[] | String;
   updatedFields_contains_some?: String[] | String;
-  node?: HeartWhereInput;
-  AND?: HeartSubscriptionWhereInput[] | HeartSubscriptionWhereInput;
-  OR?: HeartSubscriptionWhereInput[] | HeartSubscriptionWhereInput;
-  NOT?: HeartSubscriptionWhereInput[] | HeartSubscriptionWhereInput;
+  node?: VibeWhereInput;
+  AND?: VibeSubscriptionWhereInput[] | VibeSubscriptionWhereInput;
+  OR?: VibeSubscriptionWhereInput[] | VibeSubscriptionWhereInput;
+  NOT?: VibeSubscriptionWhereInput[] | VibeSubscriptionWhereInput;
 }
 
-export interface HeartCreateInput {
-  vibe: VibeCreateOneWithoutHeartsInput;
-  user: UserCreateOneInput;
-}
-
-export interface VibeUpsertWithWhereUniqueWithoutPostedByInput {
-  where: VibeWhereUniqueInput;
-  update: VibeUpdateWithoutPostedByDataInput;
-  create: VibeCreateWithoutPostedByInput;
-}
-
-export interface VibeUpdateManyDataInput {
-  description?: String;
-  img?: String;
-}
-
-export interface UserUpdateManyMutationInput {
-  name?: String;
-  email?: String;
-  password?: String;
+export interface VibeCreateWithoutHeartsInput {
+  description: String;
+  img: String;
+  postedBy?: UserCreateOneWithoutVibesInput;
 }
 
 export interface NodeNode {
@@ -812,6 +864,15 @@ export interface UserPromise extends Promise<User>, Fragmentable {
     first?: Int;
     last?: Int;
   }) => T;
+  hearts: <T = FragmentableArray<Heart>>(args?: {
+    where?: HeartWhereInput;
+    orderBy?: HeartOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => T;
 }
 
 export interface UserSubscription
@@ -824,6 +885,15 @@ export interface UserSubscription
   vibes: <T = Promise<AsyncIterator<VibeSubscription>>>(args?: {
     where?: VibeWhereInput;
     orderBy?: VibeOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => T;
+  hearts: <T = Promise<AsyncIterator<HeartSubscription>>>(args?: {
+    where?: HeartWhereInput;
+    orderBy?: HeartOrderByInput;
     skip?: Int;
     after?: String;
     before?: String;
@@ -930,6 +1000,22 @@ export interface HeartConnectionSubscription
   aggregate: <T = AggregateHeartSubscription>() => T;
 }
 
+export interface BatchPayload {
+  count: Long;
+}
+
+export interface BatchPayloadPromise
+  extends Promise<BatchPayload>,
+    Fragmentable {
+  count: () => Promise<Long>;
+}
+
+export interface BatchPayloadSubscription
+  extends Promise<AsyncIterator<BatchPayload>>,
+    Fragmentable {
+  count: () => Promise<AsyncIterator<Long>>;
+}
+
 export interface Vibe {
   id: ID_Output;
   createdAt: DateTimeOutput;
@@ -971,31 +1057,6 @@ export interface VibeSubscription
     first?: Int;
     last?: Int;
   }) => T;
-}
-
-export interface VibeSubscriptionPayload {
-  mutation: MutationType;
-  node: Vibe;
-  updatedFields: String[];
-  previousValues: VibePreviousValues;
-}
-
-export interface VibeSubscriptionPayloadPromise
-  extends Promise<VibeSubscriptionPayload>,
-    Fragmentable {
-  mutation: () => Promise<MutationType>;
-  node: <T = VibePromise>() => T;
-  updatedFields: () => Promise<String[]>;
-  previousValues: <T = VibePreviousValuesPromise>() => T;
-}
-
-export interface VibeSubscriptionPayloadSubscription
-  extends Promise<AsyncIterator<VibeSubscriptionPayload>>,
-    Fragmentable {
-  mutation: () => Promise<AsyncIterator<MutationType>>;
-  node: <T = VibeSubscription>() => T;
-  updatedFields: () => Promise<AsyncIterator<String[]>>;
-  previousValues: <T = VibePreviousValuesSubscription>() => T;
 }
 
 export interface HeartPreviousValues {
@@ -1099,20 +1160,29 @@ export interface VibeEdgeSubscription
   cursor: () => Promise<AsyncIterator<String>>;
 }
 
-export interface BatchPayload {
-  count: Long;
+export interface VibeSubscriptionPayload {
+  mutation: MutationType;
+  node: Vibe;
+  updatedFields: String[];
+  previousValues: VibePreviousValues;
 }
 
-export interface BatchPayloadPromise
-  extends Promise<BatchPayload>,
+export interface VibeSubscriptionPayloadPromise
+  extends Promise<VibeSubscriptionPayload>,
     Fragmentable {
-  count: () => Promise<Long>;
+  mutation: () => Promise<MutationType>;
+  node: <T = VibePromise>() => T;
+  updatedFields: () => Promise<String[]>;
+  previousValues: <T = VibePreviousValuesPromise>() => T;
 }
 
-export interface BatchPayloadSubscription
-  extends Promise<AsyncIterator<BatchPayload>>,
+export interface VibeSubscriptionPayloadSubscription
+  extends Promise<AsyncIterator<VibeSubscriptionPayload>>,
     Fragmentable {
-  count: () => Promise<AsyncIterator<Long>>;
+  mutation: () => Promise<AsyncIterator<MutationType>>;
+  node: <T = VibeSubscription>() => T;
+  updatedFields: () => Promise<AsyncIterator<String[]>>;
+  previousValues: <T = VibePreviousValuesSubscription>() => T;
 }
 
 export interface UserConnection {

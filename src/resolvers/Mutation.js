@@ -54,12 +54,12 @@ async function heart(parent, args, context, info) {
   const userId = getUserId(context);
 
   // 2
-  const vibeExists = await context.prisma.$exists.heart({
+  const linkExists = await context.prisma.$exists.heart({
     user: { id: userId },
     vibe: { id: args.vibeId },
   });
-  if (vibeExists) {
-    throw new Error(`Already heart for vibe: ${args.vibeId}`);
+  if (linkExists) {
+    throw new Error(`Already hearted this vibe: ${args.vibeId}`);
   }
 
   // 3

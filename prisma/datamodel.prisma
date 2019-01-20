@@ -15,6 +15,7 @@ type User {
   email: String! @unique
   password: String!
   vibes: [Vibe!]! # a one-to-many relationship!
+  hearts: [Heart!]!
 }
 
 type Heart {
