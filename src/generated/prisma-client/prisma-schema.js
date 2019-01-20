@@ -1,5 +1,9 @@
 module.exports = {
-        typeDefs: /* GraphQL */ `type AggregateUser {
+        typeDefs: /* GraphQL */ `type AggregateHeart {
+  count: Int!
+}
+
+type AggregateUser {
   count: Int!
 }
 
@@ -13,9 +17,152 @@ type BatchPayload {
 
 scalar DateTime
 
+type Heart {
+  id: ID!
+  vibe: Vibe!
+  user: User!
+}
+
+type HeartConnection {
+  pageInfo: PageInfo!
+  edges: [HeartEdge]!
+  aggregate: AggregateHeart!
+}
+
+input HeartCreateInput {
+  vibe: VibeCreateOneWithoutHeartsInput!
+  user: UserCreateOneInput!
+}
+
+input HeartCreateManyWithoutVibeInput {
+  create: [HeartCreateWithoutVibeInput!]
+  connect: [HeartWhereUniqueInput!]
+}
+
+input HeartCreateWithoutVibeInput {
+  user: UserCreateOneInput!
+}
+
+type HeartEdge {
+  node: Heart!
+  cursor: String!
+}
+
+enum HeartOrderByInput {
+  id_ASC
+  id_DESC
+  createdAt_ASC
+  createdAt_DESC
+  updatedAt_ASC
+  updatedAt_DESC
+}
+
+type HeartPreviousValues {
+  id: ID!
+}
+
+input HeartScalarWhereInput {
+  id: ID
+  id_not: ID
+  id_in: [ID!]
+  id_not_in: [ID!]
+  id_lt: ID
+  id_lte: ID
+  id_gt: ID
+  id_gte: ID
+  id_contains: ID
+  id_not_contains: ID
+  id_starts_with: ID
+  id_not_starts_with: ID
+  id_ends_with: ID
+  id_not_ends_with: ID
+  AND: [HeartScalarWhereInput!]
+  OR: [HeartScalarWhereInput!]
+  NOT: [HeartScalarWhereInput!]
+}
+
+type HeartSubscriptionPayload {
+  mutation: MutationType!
+  node: Heart
+  updatedFields: [String!]
+  previousValues: HeartPreviousValues
+}
+
+input HeartSubscriptionWhereInput {
+  mutation_in: [MutationType!]
+  updatedFields_contains: String
+  updatedFields_contains_every: [String!]
+  updatedFields_contains_some: [String!]
+  node: HeartWhereInput
+  AND: [HeartSubscriptionWhereInput!]
+  OR: [HeartSubscriptionWhereInput!]
+  NOT: [HeartSubscriptionWhereInput!]
+}
+
+input HeartUpdateInput {
+  vibe: VibeUpdateOneRequiredWithoutHeartsInput
+  user: UserUpdateOneRequiredInput
+}
+
+input HeartUpdateManyWithoutVibeInput {
+  create: [HeartCreateWithoutVibeInput!]
+  delete: [HeartWhereUniqueInput!]
+  connect: [HeartWhereUniqueInput!]
+  disconnect: [HeartWhereUniqueInput!]
+  update: [HeartUpdateWithWhereUniqueWithoutVibeInput!]
+  upsert: [HeartUpsertWithWhereUniqueWithoutVibeInput!]
+  deleteMany: [HeartScalarWhereInput!]
+}
+
+input HeartUpdateWithoutVibeDataInput {
+  user: UserUpdateOneRequiredInput
+}
+
+input HeartUpdateWithWhereUniqueWithoutVibeInput {
+  where: HeartWhereUniqueInput!
+  data: HeartUpdateWithoutVibeDataInput!
+}
+
+input HeartUpsertWithWhereUniqueWithoutVibeInput {
+  where: HeartWhereUniqueInput!
+  update: HeartUpdateWithoutVibeDataInput!
+  create: HeartCreateWithoutVibeInput!
+}
+
+input HeartWhereInput {
+  id: ID
+  id_not: ID
+  id_in: [ID!]
+  id_not_in: [ID!]
+  id_lt: ID
+  id_lte: ID
+  id_gt: ID
+  id_gte: ID
+  id_contains: ID
+  id_not_contains: ID
+  id_starts_with: ID
+  id_not_starts_with: ID
+  id_ends_with: ID
+  id_not_ends_with: ID
+  vibe: VibeWhereInput
+  user: UserWhereInput
+  AND: [HeartWhereInput!]
+  OR: [HeartWhereInput!]
+  NOT: [HeartWhereInput!]
+}
+
+input HeartWhereUniqueInput {
+  id: ID
+}
+
 scalar Long
 
 type Mutation {
+  createHeart(data: HeartCreateInput!): Heart!
+  updateHeart(data: HeartUpdateInput!, where: HeartWhereUniqueInput!): Heart
+  upsertHeart(where: HeartWhereUniqueInput!, create: HeartCreateInput!, update: HeartUpdateInput!): Heart!
+  deleteHeart(where: HeartWhereUniqueInput!): Heart
+  deleteManyHearts(where: HeartWhereInput): BatchPayload!
   createUser(data: UserCreateInput!): User!
   updateUser(data: UserUpdateInput!, where: UserWhereUniqueInput!): User
   updateManyUsers(data: UserUpdateManyMutationInput!, where: UserWhereInput): BatchPayload!
@@ -48,6 +195,9 @@ type PageInfo {
 }
 
 type Query {
+  heart(where: HeartWhereUniqueInput!): Heart
+  hearts(where: HeartWhereInput, orderBy: HeartOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Heart]!
+  heartsConnection(where: HeartWhereInput, orderBy: HeartOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): HeartConnection!
   user(where: UserWhereUniqueInput!): User
   users(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [User]!
   usersConnection(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): UserConnection!
@@ -58,6 +208,7 @@ type Query {
 }
 
 type Subscription {
+  heart(where: HeartSubscriptionWhereInput): HeartSubscriptionPayload
   user(where: UserSubscriptionWhereInput): UserSubscriptionPayload
   vibe(where: VibeSubscriptionWhereInput): VibeSubscriptionPayload
 }
@@ -81,6 +232,11 @@ input UserCreateInput {
   email: String!
   password: String!
   vibes: VibeCreateManyWithoutPostedByInput
+}
+
+input UserCreateOneInput {
+  create: UserCreateInput
+  connect: UserWhereUniqueInput
 }
 
 input UserCreateOneWithoutVibesInput {
@@ -139,6 +295,13 @@ input UserSubscriptionWhereInput {
   NOT: [UserSubscriptionWhereInput!]
 }
 
+input UserUpdateDataInput {
+  name: String
+  email: String
+  password: String
+  vibes: VibeUpdateManyWithoutPostedByInput
+}
+
 input UserUpdateInput {
   name: String
   email: String
@@ -150,6 +313,13 @@ input UserUpdateManyMutationInput {
   name: String
   email: String
   password: String
+}
+
+input UserUpdateOneRequiredInput {
+  create: UserCreateInput
+  update: UserUpdateDataInput
+  upsert: UserUpsertNestedInput
+  connect: UserWhereUniqueInput
 }
 
 input UserUpdateOneWithoutVibesInput {
@@ -165,6 +335,11 @@ input UserUpdateWithoutVibesDataInput {
   name: String
   email: String
   password: String
+}
+
+input UserUpsertNestedInput {
+  update: UserUpdateDataInput!
+  create: UserCreateInput!
 }
 
 input UserUpsertWithoutVibesInput {
@@ -248,6 +423,7 @@ type Vibe {
   description: String!
   img: String!
   postedBy: User
+  hearts(where: HeartWhereInput, orderBy: HeartOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Heart!]
 }
 
 type VibeConnection {
@@ -260,6 +436,7 @@ input VibeCreateInput {
   description: String!
   img: String!
   postedBy: UserCreateOneWithoutVibesInput
+  hearts: HeartCreateManyWithoutVibeInput
 }
 
 input VibeCreateManyWithoutPostedByInput {
@@ -267,9 +444,21 @@ input VibeCreateManyWithoutPostedByInput {
   connect: [VibeWhereUniqueInput!]
 }
 
+input VibeCreateOneWithoutHeartsInput {
+  create: VibeCreateWithoutHeartsInput
+  connect: VibeWhereUniqueInput
+}
+
+input VibeCreateWithoutHeartsInput {
+  description: String!
+  img: String!
+  postedBy: UserCreateOneWithoutVibesInput
+}
+
 input VibeCreateWithoutPostedByInput {
   description: String!
   img: String!
+  hearts: HeartCreateManyWithoutVibeInput
 }
 
 type VibeEdge {
@@ -375,6 +564,7 @@ input VibeUpdateInput {
   description: String
   img: String
   postedBy: UserUpdateOneWithoutVibesInput
+  hearts: HeartUpdateManyWithoutVibeInput
 }
 
 input VibeUpdateManyDataInput {
@@ -403,14 +593,33 @@ input VibeUpdateManyWithWhereNestedInput {
   data: VibeUpdateManyDataInput!
 }
 
+input VibeUpdateOneRequiredWithoutHeartsInput {
+  create: VibeCreateWithoutHeartsInput
+  update: VibeUpdateWithoutHeartsDataInput
+  upsert: VibeUpsertWithoutHeartsInput
+  connect: VibeWhereUniqueInput
+}
+
+input VibeUpdateWithoutHeartsDataInput {
+  description: String
+  img: String
+  postedBy: UserUpdateOneWithoutVibesInput
+}
+
 input VibeUpdateWithoutPostedByDataInput {
   description: String
   img: String
+  hearts: HeartUpdateManyWithoutVibeInput
 }
 
 input VibeUpdateWithWhereUniqueWithoutPostedByInput {
   where: VibeWhereUniqueInput!
   data: VibeUpdateWithoutPostedByDataInput!
+}
+
+input VibeUpsertWithoutHeartsInput {
+  update: VibeUpdateWithoutHeartsDataInput!
+  create: VibeCreateWithoutHeartsInput!
 }
 
 input VibeUpsertWithWhereUniqueWithoutPostedByInput {
@@ -471,6 +680,9 @@ input VibeWhereInput {
   img_ends_with: String
   img_not_ends_with: String
   postedBy: UserWhereInput
+  hearts_every: HeartWhereInput
+  hearts_some: HeartWhereInput
+  hearts_none: HeartWhereInput
   AND: [VibeWhereInput!]
   OR: [VibeWhereInput!]
   NOT: [VibeWhereInput!]

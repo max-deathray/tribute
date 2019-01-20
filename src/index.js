@@ -5,6 +5,7 @@ const Mutation = require('./resolvers/Mutation');
 const User = require('./resolvers/User');
 const Vibe = require('./resolvers/Vibe');
 const Subscription = require('./resolvers/Subscription');
+const Heart = require('./resolvers/Heart');
 
 const resolvers = {
   Query,
@@ -12,6 +13,7 @@ const resolvers = {
   Subscription,
   User,
   Vibe,
+  Heart,
 };
 
 const server = new GraphQLServer({
