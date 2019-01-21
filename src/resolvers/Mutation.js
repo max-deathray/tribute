@@ -49,8 +49,29 @@ function post(parent, args, context) {
   });
 }
 
+async function heart(parent, args, context, info) {
+  // 1
+  const userId = getUserId(context);
+
+  // 2
+  const linkExists = await context.prisma.$exists.heart({
+    user: { id: userId },
+    vibe: { id: args.vibeId },
+  });
+  if (linkExists) {
+    throw new Error(`Already hearted this vibe: ${args.vibeId}`);
+  }
+
+  // 3
+  return context.prisma.createHeart({
+    user: { connect: { id: userId } },
+    vibe: { connect: { id: args.vibeId } },
+  });
+}
+
 module.exports = {
   signup,
   login,
   post,
+  heart,
 };

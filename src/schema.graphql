@@ -1,5 +1,4 @@
 type Query {
-  info: String!
   feed: [Vibe!]!
 }
 
@@ -7,6 +6,12 @@ type Mutation {
   post(img: String!, description: String!): Vibe!
   signup(email: String!, password: String!, name: String!): AuthPayload
   login(email: String!, password: String!): AuthPayload
+  heart(vibeId: ID!): Heart
+}
+
+type Subscription {
+  newVibe: Vibe
+  newHeart: Heart
 }
 
 type Vibe {
@@ -14,6 +19,7 @@ type Vibe {
   description: String!
   img: String!
   postedBy: User
+  hearts: [Heart!]!
 }
 
 type AuthPayload {
@@ -26,4 +32,10 @@ type User {
   name: String!
   email: String!
   vibes: [Vibe!]!
+}
+
+type Heart {
+  id: ID!
+  vibe: Vibe!
+  user: User!
 }

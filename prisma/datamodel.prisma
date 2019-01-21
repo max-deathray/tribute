@@ -6,6 +6,7 @@ type Vibe {
   description: String!
   img: String!
   postedBy: User
+  hearts: [Heart!]!
 }
 
 type User {
@@ -14,4 +15,11 @@ type User {
   email: String! @unique
   password: String!
   vibes: [Vibe!]! # a one-to-many relationship!
+  hearts: [Heart!]!
+}
+
+type Heart {
+  id: ID! @unique
+  vibe: Vibe!
+  user: User!
 }
