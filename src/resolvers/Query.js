@@ -10,6 +10,8 @@ async function feed(root, args, context) {
 
   const vibes = await context.prisma.vibes({
     where,
+    skip: args.skip,
+    first: args.first,
   });
 
   return vibes;
