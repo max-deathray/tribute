@@ -1,5 +1,17 @@
 type Query {
-  feed(filter: String, skip: Int, first: Int): [Vibe!]!
+  feed(
+    filter: String
+    skip: Int
+    first: Int
+    orderBy: VibeOrderByInput
+  ): [Vibe!]!
+}
+
+enum VibeOrderByInput {
+  description_ASC
+  description_DESC
+  createdAt_ASC
+  createdAt_DESC
 }
 
 type Mutation {
