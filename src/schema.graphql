@@ -1,5 +1,5 @@
 type Query {
-  feed: [Vibe!]!
+  feed(filter: String): [Vibe!]!
 }
 
 type Mutation {
