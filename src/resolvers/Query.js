@@ -1,4 +1,4 @@
-function feed(root, args, context) {
+async function feed(root, args, context) {
   const where = args.filter
     ? {
         OR: [
@@ -9,8 +9,8 @@ function feed(root, args, context) {
     : {};
 
   const vibes = await context.prisma.vibes({
-    where
-  })
+    where,
+  });
 
   return vibes;
 }
