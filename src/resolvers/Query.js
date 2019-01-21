@@ -15,7 +15,16 @@ async function feed(root, args, context) {
     orderBy: args.orderBy,
   });
 
-  return vibes;
+  // adding count
+  const count = await context.prisma
+    .vibesConnection({ where })
+    .aggregate()
+    .count();
+
+  return {
+    vibes,
+    count,
+  };
 }
 
 module.exports = {

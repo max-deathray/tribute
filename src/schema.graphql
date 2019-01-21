@@ -1,10 +1,10 @@
 type Query {
-  feed(
-    filter: String
-    skip: Int
-    first: Int
-    orderBy: VibeOrderByInput
-  ): [Vibe!]!
+  feed(filter: String, skip: Int, first: Int, orderBy: VibeOrderByInput): Feed!
+}
+
+type Feed {
+  vibes: [Vibe!]!
+  count: Int!
 }
 
 enum VibeOrderByInput {
